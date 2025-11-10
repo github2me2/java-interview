@@ -1,4 +1,4 @@
-package org.interview;
+package org.interview.array;
 
 import java.util.HashMap;
 import java.util.Map;

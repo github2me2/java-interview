@@ -1,4 +1,4 @@
-package org.interview;
+package org.interview.array;
 
 /**
  * 盛最多水的容器： 给定一个数组，每个元素代表一个容器的高度，计算容器最多可以盛多少水。考点：双指针的运用

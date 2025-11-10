@@ -1,4 +1,4 @@
-package org.interview;
+package org.interview.array;
 
 /**
  * 移动零： 给定一个数组，将所有的0移动到数组的末尾，同时保持非零元素的相对顺序。考点：双指针的运用
