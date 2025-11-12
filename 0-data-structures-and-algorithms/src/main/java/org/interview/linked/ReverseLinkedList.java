@@ -23,10 +23,15 @@ public class ReverseLinkedList {
 
         System.out.println();
         result = reversePart(result, 2, 4);
-        while (result != null) {
-            System.out.print(result.val + " ");
-            result = result.next;
-        }
+        result.print();
+
+        System.out.println();
+        result = reverseKGroup(result, 3);
+        result.print();
+
+        System.out.println();
+        result = reverseAdjacent(result);
+        result.print();
     }
 
     public static class ListNode {
@@ -140,5 +145,86 @@ public class ReverseLinkedList {
             prev.next = next;
         }
         return dummy.next;
+    }
+
+    /**
+     * 变种2：k个一组的进行反转，每k个节点为一组，对每组节点进行反转，不满k个节点的组不进行反转。
+     * 例如k等于2，链表为1->2->3->4->5->6->7->8->9，
+     * 则返回2->1->4->3->6->5->8->7->9。
+     * 最后返回新链表的头节点。
+     */
+    public static ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || k <= 1) {
+            return head;
+        }
+        // 先找到每一组的头节点和尾节点，然后对每组节点进行反转，
+        // 最后将反转后的链表与其他节点连接起来。
+        ListNode dummy = new ListNode(0);
+        // 虚拟头节点，指向原链表的头节点
+        dummy.next = head;
+        // 上一组的尾节点，初始时指向虚拟头节点
+        ListNode prev = dummy;
+        while (head != null) {
+            // 找到当前组的尾节点
+            // 如果当前组的节点数不足k个，直接返回虚拟头节点的下一个节点
+            // 说明当前组的节点数不足k个，不需要反转
+            ListNode tail = prev;
+            for (int i = 0; i < k; i++) {
+                tail = tail.next;
+                if (tail == null) {
+                    return dummy.next;
+                }
+            }
+            // 记录下一组的头节点
+            ListNode nextGroup = tail.next;
+            // 反转当前组的节点
+            ListNode[] reversed = reverseSegment(head, tail);
+            head = reversed[0];
+            tail = reversed[1];
+            // 将反转后的链表与其他节点连接起来
+            prev.next = head;
+            tail.next = nextGroup;
+
+            // 更新上一组的尾节点为当前组的尾节点
+            prev = tail;
+            // 更新当前组的头节点为下一组的头节点
+            head = nextGroup;
+        }
+        return dummy.next;
+    }
+
+    /**
+     * 反转链表的一部分，只，其他节点保持不变。
+     * 时间复杂度O(n)，空间复杂度O(1)
+     *
+     * @param head
+     * @param tail
+     * @return
+     */
+    private static ListNode[] reverseSegment(ListNode head, ListNode tail) {
+        ListNode prev = tail.next;
+        ListNode curr = head;
+        while (prev != tail) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return new ListNode[]{tail, head};
+    }
+
+    /**
+     * 变种3：反转相邻节点，例如1->2->3->4->5->6，
+     * 则返回2->1->4->3->6->5。
+     * 时间复杂度O(n)，空间复杂度O(1)
+     */
+    public static ListNode reverseAdjacent(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = head.next;
+        head.next = reverseAdjacent(newHead.next);
+        newHead.next = head;
+        return newHead;
     }
 }
