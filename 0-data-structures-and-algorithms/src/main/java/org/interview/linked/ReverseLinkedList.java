@@ -1,7 +1,5 @@
 package org.interview.linked;
 
-import java.util.List;
-
 /**
  * 反转链表
  */
@@ -34,22 +32,6 @@ public class ReverseLinkedList {
         result.print();
     }
 
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
-
-        public void print() {
-            ListNode tempNode = this;
-            while (tempNode != null) {
-                System.out.print(tempNode.val + " ");
-                tempNode = tempNode.next;
-            }
-        }
-    }
 
     /**
      * 迭代法反转链表
