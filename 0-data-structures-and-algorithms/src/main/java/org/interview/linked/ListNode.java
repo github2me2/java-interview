@@ -18,4 +18,9 @@ public class ListNode {
             tempNode = tempNode.next;
         }
     }
+
+    @Override
+    public String toString() {
+        return val + "";
+    }
 }
